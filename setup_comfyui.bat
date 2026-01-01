@@ -67,27 +67,9 @@ cd /d "%~dp0"
 echo [INFO] Custom Nodes installed.
 echo.
 
-:: --- 2. Install Python Dependencies for Custom Nodes ---
-echo [INFO] =================================================================
-echo [INFO] 2. Installing Python dependencies (insightface, onnxruntime)...
-echo [INFO] =================================================================
-if exist "%COMFYUI_PATH%\.venv\Scripts\activate.bat" (
-    call "%COMFYUI_PATH%\.venv\Scripts\activate.bat"
-    echo [INFO] Upgrading pip...
-    python -m pip install --upgrade pip
-    echo [INFO] Installing packages...
-    pip install insightface onnxruntime
-    call "%COMFYUI_PATH%\.venv\Scripts\deactivate.bat"
-    echo [INFO] Python dependencies installed successfully.
-) else (    set "VENV_SKIPPED=true"    echo [WARNING] ComfyUI Python virtual environment not found at '%COMFYUI_PATH%\.venv'.
-    echo [WARNING] Skipping Python dependency installation.
-    echo [WARNING] Please manually install 'insightface' and 'onnxruntime' in your ComfyUI Python environment.
-)
-echo.
-
-:: --- 3. Download and Install Models ---
+:: --- 2. Download and Install Models ---
 echo [INFO] =======================================
-echo [INFO] 3. Downloading and installing models...
+echo [INFO] 2. Downloading and installing models...
 echo [INFO] =======================================
 
 :: Helper function to download files
@@ -161,6 +143,24 @@ call :downloadFile "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip
 echo [INFO] Model downloads complete.
 echo.
 echo [INFO] NOTE: InsightFace models will be downloaded automatically by ComfyUI on first use.
+echo.
+
+:: --- 3. Install Python Dependencies for Custom Nodes ---
+echo [INFO] =================================================================
+echo [INFO] 3. Installing Python dependencies (insightface, onnxruntime)...
+echo [INFO] =================================================================
+if exist "%COMFYUI_PATH%\.venv\Scripts\activate.bat" (
+    call "%COMFYUI_PATH%\.venv\Scripts\activate.bat"
+    echo [INFO] Upgrading pip...
+    python -m pip install --upgrade pip
+    echo [INFO] Installing packages...
+    pip install insightface onnxruntime
+    call "%COMFYUI_PATH%\.venv\Scripts\deactivate.bat"
+    echo [INFO] Python dependencies installed successfully.
+) else (    set "VENV_SKIPPED=true"    echo [WARNING] ComfyUI Python virtual environment not found at '%COMFYUI_PATH%\.venv'.
+    echo [WARNING] Skipping Python dependency installation.
+    echo [WARNING] Please manually install 'insightface' and 'onnxruntime' in your ComfyUI Python environment.
+)
 echo.
 
 :: --- Finalization ---

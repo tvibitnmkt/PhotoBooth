@@ -81,30 +81,9 @@ cd - > /dev/null # Go back to the previous directory
 info "Custom Nodes installed."
 echo
 
-# --- 2. Install Python Dependencies for Custom Nodes ---
-info "================================================================="
-info "2. Installing Python dependencies (insightface, onnxruntime)..."
-info "================================================================="
-if [ -f "$COMFYUI_PATH/venv/bin/activate" ]; then
-    # shellcheck source=/dev/null
-    source "$COMFYUI_PATH/venv/bin/activate"
-    info "Upgrading pip..."
-    python -m pip install --upgrade pip
-    info "Installing packages..."
-    pip install insightface onnxruntime onnxruntime-gpu
-    deactivate
-    info "Python dependencies installed successfully."
-else
-    VENV_SKIPPED=true
-    warn "ComfyUI Python virtual environment not found at '$COMFYUI_PATH/venv'."
-    warn "Skipping Python dependency installation."
-    warn "Please manually install 'insightface', 'onnxruntime', and 'onnxruntime-gpu' in your ComfyUI Python environment."
-fi
-echo
-
-# --- 3. Download and Install Models ---
+# --- 2. Download and Install Models ---
 info "======================================="
-info "3. Downloading and installing models..."
+info "2. Downloading and installing models..."
 info "======================================="
 
 # Helper function to download files
@@ -176,6 +155,27 @@ download_file "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adap
 download_file "https://huggingface.co/h94/IP-Adapter/resolve/main/models/ip-adapter-faceid_sd15_lora.safetensors" "$LORAS_PATH/ip-adapter-faceid_sd15_lora.safetensors"
 
 info "NOTE: InsightFace models will be downloaded automatically by ComfyUI on first use."
+echo
+
+# --- 3. Install Python Dependencies for Custom Nodes ---
+info "================================================================="
+info "3. Installing Python dependencies (insightface, onnxruntime)..."
+info "================================================================="
+if [ -f "$COMFYUI_PATH/venv/bin/activate" ]; then
+    # shellcheck source=/dev/null
+    source "$COMFYUI_PATH/venv/bin/activate"
+    info "Upgrading pip..."
+    python -m pip install --upgrade pip
+    info "Installing packages..."
+    pip install insightface onnxruntime onnxruntime-gpu
+    deactivate
+    info "Python dependencies installed successfully."
+else
+    VENV_SKIPPED=true
+    warn "ComfyUI Python virtual environment not found at '$COMFYUI_PATH/venv'."
+    warn "Skipping Python dependency installation."
+    warn "Please manually install 'insightface', 'onnxruntime', and 'onnxruntime-gpu' in your ComfyUI Python environment."
+fi
 echo
 
 # --- Finalization ---
