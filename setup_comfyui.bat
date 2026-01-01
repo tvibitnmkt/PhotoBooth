@@ -24,6 +24,7 @@ setlocal
 :: Set the path to your ComfyUI installation directory.
 :: The default path assumes the ComfyUI folder is located next to the PhotoBooth folder.
 set "COMFYUI_PATH=..\ComfyUI"
+set "VENV_SKIPPED=false"
 
 :: --- Script Start ---
 echo [INFO] Starting ComfyUI setup for PhotoBooth.
@@ -78,8 +79,7 @@ if exist "%COMFYUI_PATH%\.venv\Scripts\activate.bat" (
     pip install insightface onnxruntime
     call "%COMFYUI_PATH%\.venv\Scripts\deactivate.bat"
     echo [INFO] Python dependencies installed successfully.
-) else (
-    echo [WARNING] ComfyUI Python virtual environment not found at '%COMFYUI_PATH%\.venv'.
+) else (    set "VENV_SKIPPED=true"    echo [WARNING] ComfyUI Python virtual environment not found at '%COMFYUI_PATH%\.venv'.
     echo [WARNING] Skipping Python dependency installation.
     echo [WARNING] Please manually install 'insightface' and 'onnxruntime' in your ComfyUI Python environment.
 )
@@ -166,6 +166,12 @@ echo.
 :: --- Finalization ---
 echo =================================================================
 echo [SUCCESS] ComfyUI setup for PhotoBooth is complete!
+if "%VENV_SKIPPED%"=="true" (
+    echo.
+    echo [IMPORTANT] The Python virtual environment was not found.
+    echo [IMPORTANT] Please ensure you manually install 'insightface' and 'onnxruntime'
+    echo [IMPORTANT] in your ComfyUI's Python environment before running PhotoBooth.
+)
 echo You can now start ComfyUI and then run the PhotoBooth application.
 echo =================================================================
 echo.

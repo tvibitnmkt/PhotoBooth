@@ -25,6 +25,7 @@ set -e
 # Set the path to your ComfyUI installation directory.
 # The default path assumes the ComfyUI folder is located next to the PhotoBooth folder.
 COMFYUI_PATH="../ComfyUI"
+VENV_SKIPPED=false
 
 # --- Helper Functions ---
 info() {
@@ -94,6 +95,7 @@ if [ -f "$COMFYUI_PATH/venv/bin/activate" ]; then
     deactivate
     info "Python dependencies installed successfully."
 else
+    VENV_SKIPPED=true
     warn "ComfyUI Python virtual environment not found at '$COMFYUI_PATH/venv'."
     warn "Skipping Python dependency installation."
     warn "Please manually install 'insightface', 'onnxruntime', and 'onnxruntime-gpu' in your ComfyUI Python environment."
@@ -179,6 +181,14 @@ echo
 # --- Finalization ---
 info "================================================================="
 info "SUCCESS: ComfyUI setup for PhotoBooth is complete!"
+if [ "$VENV_SKIPPED" = true ]; then
+    echo
+    info "#################################################################"
+    warn "IMPORTANT: The Python virtual environment was not found."
+    warn "Please ensure you manually install 'insightface' and 'onnxruntime'"
+    warn "in your ComfyUI's Python environment before running PhotoBooth."
+    info "#################################################################"
+fi
 info "You can now start ComfyUI and then run the PhotoBooth application."
 info "================================================================="
 echo
