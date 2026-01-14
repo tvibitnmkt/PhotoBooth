@@ -315,3 +315,5 @@ Just press the keys alt and F4 to close the window. The Photobooth window is con
 Developed as part of the **Machine Learning Group – UiT Tromsø** demonstration projects.  
 Full list of contributors and acknowledgements are included in the PDF documentation **`CR_Installation_Photobooth_2025_V3_en.pdf`**.
 
+Workflows, UI Graphics **Tvibit - Cris kevin Bjørndal**
+
